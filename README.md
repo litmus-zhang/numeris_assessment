@@ -5,6 +5,9 @@ Thank you for choosing Buffalo for your web development needs.
 ## Entity Relation Diagram Setup
 Entity Relationship Diagram (ERD): (Link here)[https://dbdiagram.io/d/Invoice-Management-System-65a0439fac844320aebe15c7]
 
+
+## API Documentation
+published API documentation : (Link here)[https://documenter.getpostman.com/view/11885037/2sAXqne4d6]
 ## Database Setup
 
 It looks like you chose to set up your application using a database! Fantastic!

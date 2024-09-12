@@ -100,13 +100,21 @@ func (i Invoices) String() string {
 	return string(ji)
 }
 
-// create a nethod to sort the invoices by status and return the total amount for each status
-func (i *Invoices) SortByStatus() map[string]float64 {
-	group := make(map[string]float64)
+// create a nethod to sort the invoices by status and return the total amount for each status and also the number of invoices
+type KeyStore map[string]float64
+
+func (i *Invoices) SortByStatus() map[string]KeyStore {
+	group := make(map[string]KeyStore)
 	for _, invoice := range *i {
-		group[string(invoice.Status)] += invoice.Total
+		if _, ok := group[string(invoice.Status)]; !ok {
+			group[string(invoice.Status)] = KeyStore{}
+		}
+		group[string(invoice.Status)]["total"] += invoice.Total
+		group[string(invoice.Status)]["count"] += 1
+
 	}
 	return group
+
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.

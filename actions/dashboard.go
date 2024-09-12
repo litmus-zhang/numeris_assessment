@@ -45,7 +45,7 @@ func Dashboard(c buffalo.Context) error {
 	finalGroup := invoicesList.SortByStatus()
 	type ResponseType struct {
 		Invoices *models.Invoices
-		Group    map[string]float64
+		Group    map[string]models.KeyStore
 	}
 
 	response := utils.ResponseUtils[ResponseType]{
