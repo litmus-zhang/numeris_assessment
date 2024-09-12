@@ -1,10 +1,9 @@
 package actions
 
 import (
-	"sync"
-
 	"assessment/locales"
 	"assessment/models"
+	"sync"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo-pop/v3/pop/popmw"
@@ -49,7 +48,7 @@ func App() *buffalo.App {
 			PreWares: []buffalo.PreWare{
 				cors.Default().Handler,
 			},
-			SessionName: "_assessment_session",
+			SessionName: "_numerisbook_session",
 		})
 
 		// Automatically redirect to SSL
@@ -65,7 +64,31 @@ func App() *buffalo.App {
 		//   c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
 		app.Use(popmw.Transaction(models.DB))
-		app.GET("/", HomeHandler)
+
+		base := app.Group("/api/v1")
+		base.GET("/health", HealthHandler)
+
+		//Routes for Auth
+		auth := base.Group("/auth")
+		auth.POST("/signin", AuthCreate)
+		auth.POST("/signup", UsersCreate)
+		auth.Middleware.Skip(Authorize, AuthCreate)
+
+		// NOTE: this block should go before any resources
+		// that need to be protected by buffalo-goth!
+		//AuthMiddlewares
+		app.Use(SetCurrentUser)
+		app.Use(Authorize)
+
+		auth.GET("/me", AuthGetMe)
+
+		// Routes for Business Logic
+		base.Resource("/business_details", BusinessDetailsResource{})
+		base.Resource("/invoices", InvoicesResource{})
+		base.GET("/dashboard", Dashboard)
+		base.Resource("/payment_details", PaymentDetailsResource{})
+
+		base.Resource("/customers", CustomersResource{})
 	})
 
 	return app

@@ -1,0 +1,5 @@
+drop_table("items")
+drop_table("payment_details")
+drop_table("customers")
+drop_table("business_details")
+drop_table("invoices")

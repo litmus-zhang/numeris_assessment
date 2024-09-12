@@ -1,0 +1,58 @@
+create_table("users"){
+    t.Column("id", "int", {"primary": true})
+    t.Column("email", "string", {})
+    t.Column("password_hash", "string", {})
+}
+
+create_table("customers") {
+	t.Column("id", "int", {primary: true})
+	t.Column("first_name", "string", {limit: 255})
+	t.Column("last_name", "string", {limit: 255})
+	t.Column("email", "string", {limit: 255})
+	t.Column("phone_number", "string", {limit: 255})
+	t.Column("created_by", "int", {})
+	t.ForeignKey("created_by", { "users": ["id"]},{ on_delete: "cascade"})
+}
+
+create_table("invoices") {
+	t.Column("id", "int", {primary: true})
+	t.Column("customer_id", "int", {index: true})
+	t.ForeignKey("customer_id", { "customers": ["id"]},{ on_delete: "cascade"})
+	t.Column("invoice_number", "string", {limit: 255})
+	t.Column("invoice_note", "text", {})
+	t.Column("due_date", "date", {})
+	t.Column("total_amount", "decimal", {precision: 10, scale: 2})
+	t.Column("status", "string", {limit: 255})
+	t.Column("created_by", "int", {})
+	t.ForeignKey("created_by", { "users": ["id"]},{ on_delete: "cascade"})
+}
+
+create_table("items") {
+	t.Column("id", "int", {primary: true})
+	t.Column("name", "string", {})
+	t.Column("price", "int", {})
+	t.Column("description", "string", { "default": "No description" })
+	t.Column("unit_price", "decimal", { "precision": 10, scale: 2, "default": 0.0})
+	t.Column("quantity", "int", { "default": 0 })
+	t.Column("invoice_id", "int", {})
+	t.ForeignKey("invoice_id", { "invoices": ["id"]},{ on_delete: "cascade"})
+}
+
+create_table("payment_details") {
+	t.Column("id", "int", {primary: true})
+	t.Column("bank_name", "string", {limit: 255})
+	t.Column("account_name", "string", {limit: 255})
+	t.Column("account_number", "string", {limit: 255})
+	t.Column("created_by", "int", {})
+	t.ForeignKey("created_by", { "users": ["id"]},{ on_delete: "cascade"})
+}
+
+create_table("business_details") {
+	t.Column("id", "int", {primary: true})
+	t.Column("business_name", "string", {limit: 255})
+	t.Column("email", "string", {limit: 255})
+	t.Column("phone_number", "string", {limit: 255})
+	t.Column("address", "string", {limit: 255})
+	t.Column("created_by", "int", {})
+	t.ForeignKey("created_by", { "users": ["id"]},{ on_delete: "cascade"})
+}

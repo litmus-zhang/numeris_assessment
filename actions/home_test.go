@@ -1,10 +1,12 @@
 package actions
 
-import "net/http"
+import (
+	"net/http"
+)
 
-func (as *ActionSuite) Test_HomeHandler() {
-	res := as.JSON("/").Get()
+func (as *ActionSuite) Test_HealthHandler() {
+	res := as.JSON("/api/v1/health").Get()
 
 	as.Equal(http.StatusOK, res.Code)
-	as.Contains(res.Body.String(), "Welcome to Buffalo")
+	as.Containsf(res.Body.String(), "All Systems operational", "Response body does not match")
 }

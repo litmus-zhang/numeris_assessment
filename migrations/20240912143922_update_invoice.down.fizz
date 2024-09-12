@@ -1,0 +1,1 @@
+change_column("invoices","invoice_note", "text", {})
