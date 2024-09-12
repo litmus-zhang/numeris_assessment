@@ -2,6 +2,9 @@
 
 Thank you for choosing Buffalo for your web development needs.
 
+## Entity Relation Diagram Setup
+Entity Relationship Diagram (ERD): (Link here)[https://dbdiagram.io/d/Invoice-Management-System-65a0439fac844320aebe15c7]
+
 ## Database Setup
 
 It looks like you chose to set up your application using a database! Fantastic!
@@ -13,7 +16,7 @@ You will also need to make sure that **you** start/install the database of your 
 ### Create Your Databases
 
 Ok, so you've edited the "database.yml" file and started your database, now Buffalo can create the databases in that file for you:
-
+xw
 ```console
 buffalo pop create -a
 ```
